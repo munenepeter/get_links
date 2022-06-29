@@ -9,7 +9,9 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 
 git clone https://github.com/munenepeter/get_links.git
+
 cd get_links
+
 composer install
 
 ```
@@ -19,9 +21,7 @@ Want to contribute? Great!
 
 #### Usage
 
-For production release:
-
-```php
+```sh
 
 php index.php <your-desired-site-url>
 
