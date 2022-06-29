@@ -24,7 +24,7 @@ Want to contribute? Great!
 #### Usage
 
 ```bash
-php index.php <your-desired-site-url>
+php index.php --url <your-desired-site-url> --keyword keywords-to-search-for
 
 ```
 
