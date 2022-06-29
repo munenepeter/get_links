@@ -6,14 +6,12 @@ Dillinger requires [PHP](https://www.php.net/) v7.1^ to run.
 
 Install the dependencies and devDependencies and start the server.
 
-```git
-
+```bash
 git clone https://github.com/munenepeter/get_links.git
 
 ```
 
-```sh
-
+```bash
 cd get_links
 
 composer install
@@ -25,8 +23,7 @@ Want to contribute? Great!
 
 #### Usage
 
-```sh
-
+```bash
 php index.php <your-desired-site-url>
 
 ```
