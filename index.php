@@ -13,35 +13,56 @@ if (isset($options["u"]) || isset($options["url"])) {
 
     $web = new \spekulatius\phpscraper();
 
-    $web->go($url);
-
-    // Loop through the links
-    $links = '';
-    foreach ($web->links as $link) {
-        $links .= $link . "\n";
-    }
+    try {
+        $web->go($url);
 
 
-    $host = parse_url($url, PHP_URL_HOST);
-    $time = round(microtime(true) - $start, 2);
+        // Loop through the links
+        $links = '';
+        foreach ($web->links as $link) {
+            $links .= $link . "\n";
+        }
 
-    if (file_put_contents('links.txt', $links)) {
-        echo "Done getting " . count($web->links) . " links for $host in $time Seconds" . PHP_EOL;
+
+        $host = parse_url($url, PHP_URL_HOST);
+        $time = round(microtime(true) - $start, 2);
+
+        if (file_put_contents('links.txt', $links)) {
+            echo "Done getting " . count($web->links) . " links for $host in $time Seconds" . PHP_EOL;
+        }
+    } catch (\Exception $e) {
+        echo  "Error! " . $e->getMessage();
     }
 }
 
-if (isset($options["w"]) || isset($options["keyword"])) {
+// if (isset($options["w"]) || isset($options["keyword"]) || $options["w"] !== false) {
 
-    $keyword = strtolower(isset($options["w"]) ? $options["w"] : $options["keyword"]);
+//     $keyword = strtolower(isset($options["w"]) ? $options["w"] : $options["keyword"]);
 
+//     $count = 0;
+
+//     foreach ($web->paragraphs as $paragraph) {
+
+//         if (strpos(strtolower($paragraph), $keyword) !== false) {
+//             $count++;
+//         } else {
+//             $count--;
+//         }
+//     }
+//     if ($count >= 1) {
+//         echo "Found $count results for {$keyword}" . PHP_EOL;
+//     } else {
+//         echo "No results for {$keyword}" . PHP_EOL;
+//     }
+// } 
     $count = 0;
-
+    $keyword = $argv[4];
     foreach ($web->paragraphs as $paragraph) {
 
         if (strpos(strtolower($paragraph), $keyword) !== false) {
-            $count++;
-        } else {
             $count--;
+        } else {
+            $count++;
         }
     }
     if ($count >= 1) {
@@ -49,4 +70,4 @@ if (isset($options["w"]) || isset($options["keyword"])) {
     } else {
         echo "No results for {$keyword}" . PHP_EOL;
     }
-}
+
