@@ -3,7 +3,7 @@ $start = microtime(true);
 
 require 'vendor/autoload.php';
 
-$short_options = "u:w::";
+$short_options = "u:k::";
 $long_options = ["url:", "keyword::"];
 $options = getopt($short_options, $long_options);
 
@@ -15,48 +15,31 @@ if (isset($options["u"]) || isset($options["url"])) {
 
     try {
         $web->go($url);
-
-
         // Loop through the links
         $links = '';
         foreach ($web->links as $link) {
             $links .= $link . "\n";
         }
-
-
         $host = parse_url($url, PHP_URL_HOST);
         $time = round(microtime(true) - $start, 2);
 
-        if (file_put_contents('links.txt', $links)) {
+        if (file_put_contents('links.txt', $links)) { 
             echo "Done getting " . count($web->links) . " links for $host in $time Seconds" . PHP_EOL;
         }
     } catch (\Exception $e) {
         echo  "Error! " . $e->getMessage();
     }
 }
+if(!isset($options["k"])){
+    exit;
+}
 
-// if (isset($options["w"]) || isset($options["keyword"]) || $options["w"] !== false) {
+if (isset($options["k"]) || isset($options["keyword"]) || $options["k"] !== false) {
 
-//     $keyword = strtolower(isset($options["w"]) ? $options["w"] : $options["keyword"]);
+    $keyword = strtolower(isset($options["k"]) ? $options["k"] : $options["keyword"]);
 
-//     $count = 0;
-
-//     foreach ($web->paragraphs as $paragraph) {
-
-//         if (strpos(strtolower($paragraph), $keyword) !== false) {
-//             $count++;
-//         } else {
-//             $count--;
-//         }
-//     }
-//     if ($count >= 1) {
-//         echo "Found $count results for {$keyword}" . PHP_EOL;
-//     } else {
-//         echo "No results for {$keyword}" . PHP_EOL;
-//     }
-// } 
     $count = 0;
-    $keyword = $argv[4];
+
     foreach ($web->paragraphs as $paragraph) {
 
         if (strpos(strtolower($paragraph), $keyword) !== false) {
@@ -70,4 +53,4 @@ if (isset($options["u"]) || isset($options["url"])) {
     } else {
         echo "No results for {$keyword}" . PHP_EOL;
     }
-
+} 
